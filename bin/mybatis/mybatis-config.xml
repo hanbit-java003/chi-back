@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+	
+	<typeAliases> <!-- type 이름 기니까, 별칭으로 줄인다. -->
+		<typeAlias alias="makersVO" type="com.chi.makers.api.vo.MakersVO"/>
+		<typeAlias alias="imgVO" type="com.chi.makers.api.vo.ImgVO"/>
+		<typeAlias alias="scheduleVO" type="com.chi.makers.api.vo.ScheduleVO"/>
+		<typeAlias alias="infoVO" type="com.chi.makers.api.vo.InfoVO"/>
+	</typeAliases>
+	
+	<!-- <environments> application.properties에 이미 입력해서 필요없음 삭제 -->
+	
+</configuration>

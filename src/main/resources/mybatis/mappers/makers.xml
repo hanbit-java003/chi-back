@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="makers">
+	
+	<select id="selectMakers" resultType="makersVO">
+		SELECT id, orders, title, content, likes
+		  FROM tbl_items
+	</select>
+	
+	<select id="selectImg" parameterType="int" resultType="imgVO">
+		SELECT *
+		  FROM tbl_imgs
+		 WHERE id=#{id} AND item_id=0
+	</select>
+	
+	<select id="selectSubItem" parameterType="int" resultType="makersVO">
+		SELECT *
+		  FROM tbl_items
+		 WHERE id=#{id}
+	</select>
+	
+	<select id="selectImgs" parameterType="int" resultType="imgVO">
+		SELECT *
+		  FROM tbl_imgs
+		 WHERE id=#{id}
+	  ORDER BY item_id
+	     LIMIT 1, 3
+	</select>
+	
+	<select id="selectInfos" parameterType="int" resultType="infoVO">
+		SELECT *
+		  FROM tbl_product_info
+		 WHERE id=#{id}
+	  ORDER BY item_id
+	</select>
+	
+	<select id="selectSchedules" parameterType="int" resultType="scheduleVO">
+		SELECT *
+		  FROM tbl_schedule
+		 WHERE id=#{id}
+	  ORDER BY item_id
+	</select>
+	
+</mapper>
