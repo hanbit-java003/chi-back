@@ -7,6 +7,7 @@
 	<select id="selectMakers" resultType="makersVO">
 		SELECT id, orders, title, content, likes
 		  FROM tbl_items
+		 ORDER BY id DESC
 	</select>
 	
 	<select id="selectImg" parameterType="int" resultType="imgVO">
