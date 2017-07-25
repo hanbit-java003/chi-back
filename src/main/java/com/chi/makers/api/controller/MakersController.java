@@ -5,9 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chi.makers.api.service.MakersService;
+import com.chi.makers.api.vo.MakersBestVO;
 import com.chi.makers.api.vo.MakersVO;
 
 @RestController
@@ -24,10 +27,15 @@ public class MakersController {
 		return makers; // spring이 json 만들어 보내준다. java에서는 java만
 	}
 	
-	@RequestMapping("/{makersId}")
-	public MakersVO getMakers(@PathVariable("makersId") int makersId) {
+	@RequestMapping(value="/detail", method=RequestMethod.GET)
+	public MakersVO getMakers(@RequestParam(value="id", required=true) int makersId) {
 		// 파라미터 String 아니고 int값으로 받을 수 있다.
 		return makersService.getMakers(makersId);
+	}
+	
+	@RequestMapping("/best")
+	public List<MakersBestVO> getBestMakers() {
+		return makersService.getBestMakers();
 	}
 
 }

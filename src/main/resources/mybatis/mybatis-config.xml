@@ -13,6 +13,7 @@
 		<typeAlias alias="imgVO" type="com.chi.makers.api.vo.ImgVO"/>
 		<typeAlias alias="scheduleVO" type="com.chi.makers.api.vo.ScheduleVO"/>
 		<typeAlias alias="infoVO" type="com.chi.makers.api.vo.InfoVO"/>
+		<typeAlias alias="makersBestVO" type="com.chi.makers.api.vo.MakersBestVO"/>
 	</typeAliases>
 	
 	<!-- <environments> application.properties에 이미 입력해서 필요없음 삭제 -->

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.chi.makers.api.vo.ImgVO;
 import com.chi.makers.api.vo.InfoVO;
+import com.chi.makers.api.vo.MakersBestVO;
 import com.chi.makers.api.vo.MakersVO;
 import com.chi.makers.api.vo.ScheduleVO;
 
@@ -40,6 +41,10 @@ public class MakersDAO {
 
 	public List<ScheduleVO> getSchedules(int id) {
 		return sqlSession.selectList("makers.selectSchedules", id);
+	}
+
+	public List<MakersBestVO> selectBestMakers() {
+		return sqlSession.selectList("makers.selectBestOrders");
 	}
 
 }

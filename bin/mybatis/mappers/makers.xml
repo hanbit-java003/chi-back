@@ -44,4 +44,14 @@
 	  ORDER BY item_id
 	</select>
 	
+	<select id="selectBestOrders" resultType="makersBestVO">
+		SELECT t.*, @rownum := @rownum + 1 as rank
+  		  FROM (
+				SELECT i.id, i.title, g.img, MAX(i.orders) orders
+	  			  FROM tbl_items i, tbl_imgs g
+	 			 WHERE i.id = g.id AND g.item_id = 0
+	 			 GROUP BY i.orders) t, (SELECT @rownum := 0) r
+ 		 ORDER BY orders DESC;
+	</select>
+	
 </mapper>
