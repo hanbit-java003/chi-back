@@ -17,10 +17,10 @@ public class MakersService {
 	@Autowired
 	private MakersDAO makersDAO;
 	
-	private List<MakersVO> casheMakersVO;
+	private List<MakersVO> casheMakersVO = new ArrayList<>();
 	
 	public List<MakersVO> getMakers() {
-		if (casheMakersVO != null) {
+		if (!casheMakersVO.isEmpty()) {
 			return casheMakersVO;
 		}
 		
@@ -37,6 +37,7 @@ public class MakersService {
 		return makers;
 	}
 
+	@Transactional
 	public MakersVO getMakers(int makersId) {
 		MakersVO makersVO = makersDAO.getMakers(makersId);
 		makersVO.setImgs(makersDAO.getImgs(makersId));
@@ -47,6 +48,12 @@ public class MakersService {
 
 	public List<MakersBestVO> getBestMakers() {
 		return makersDAO.selectBestMakers();
+	}
+
+	public void invalidateCache() {
+		if (!casheMakersVO.isEmpty()) {
+			casheMakersVO.clear();
+		}
 	}
 
 }

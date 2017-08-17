@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin">
+	
+	<select id="selectListMakers" resultType="adminMkVO">
+		SELECT i.id, i.title, m.img, i.name, i.likes, i.orders
+		  FROM tbl_items i, tbl_imgs m
+		 WHERE i.id = m.id AND m.item_id = 0
+	  ORDER BY i.id DESC;
+	</select>
+	
+	<select id="selectMakers" parameterType="int" resultType="makersVO">
+		SELECT *
+		  FROM tbl_items
+		 WHERE id=#{id}
+	</select>
+	
+	<select id="selectImgs" parameterType="int" resultType="imgVO">
+		SELECT *
+		  FROM tbl_imgs
+		 WHERE id=#{id}
+ 		 ORDER BY item_id
+	</select>
+	
+	<select id="selectInfos" parameterType="int" resultType="infoVO">
+		SELECT *
+		  FROM tbl_product_info
+		 WHERE id=#{id}
+		 ORDER BY item_id
+	</select>
+	
+	<select id="selectSchedules" parameterType="int" resultType="scheduleVO">
+		SELECT *
+		  FROM tbl_schedule
+		 WHERE id=#{id}
+		 ORDER BY item_id
+	</select>
+	
+	<update id="updateMakers" parameterType="makersVO">
+		UPDATE tbl_items
+		   SET name = #{name},
+		       title = #{title},
+		       price = #{price},
+		       content = #{content},
+		       orders = #{orders},
+		       orderDays = #{orderDays},
+		       likes = #{likes}
+		 WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteImgs" parameterType="int">
+		DELETE
+		  FROM tbl_imgs
+		 WHERE id = #{id}
+	</delete>
+	
+	<insert id="insertImgs" parameterType="makersVO">
+		INSERT INTO tbl_imgs
+			(id, item_id, img)
+		VALUES
+		<foreach collection="imgs" item="img" index="index" separator=",">
+			(#{id}, #{index}, #{img.img})
+		</foreach>
+	</insert>
+	
+	<delete id="deleteInfos" parameterType="int">
+		DELETE
+		  FROM tbl_product_info
+		 WHERE id = #{id}
+	</delete>
+	
+	<insert id="insertInfos" parameterType="makersVO">
+		INSERT INTO tbl_product_info
+			(id, item_id, title, value)
+		VALUES
+		<foreach collection="infos" item="info" index="index" separator=",">
+			(#{id}, #{index} + 1, #{info.title}, #{info.value})
+		</foreach>
+	</insert>
+	
+	<delete id="deleteSchedules" parameterType="int">
+		DELETE
+		  FROM tbl_schedule
+		 WHERE id = #{id}
+	</delete>
+	
+	<insert id="insertSchedules" parameterType="makersVO">
+		INSERT INTO tbl_schedule
+			(id, item_id, schedule)
+		VALUES
+		<foreach collection="schedules" item="schedule" index="index" separator=",">
+			(#{id}, #{index} + 1, #{schedule.schedule})
+		</foreach>
+	</insert>
+	
+	<insert id="insertMakers" parameterType="makersVO">
+		INSERT INTO tbl_items
+		    (id, name, title, price, content, orders, orderDays, likes)
+		VALUES
+			(#{id}, #{name}, #{title}, #{price}, #{content}, #{orders}, #{orderDays}, #{likes})
+	</insert>
+	
+	<select id="generateId" resultType="int">
+		SELECT MAX(id) + 1
+		  FROM tbl_items
+	</select>
+	
+</mapper>

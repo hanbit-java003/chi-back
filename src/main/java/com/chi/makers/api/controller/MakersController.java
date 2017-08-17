@@ -27,8 +27,8 @@ public class MakersController {
 		return makers; // spring이 json 만들어 보내준다. java에서는 java만
 	}
 	
-	@RequestMapping(value="/detail", method=RequestMethod.GET)
-	public MakersVO getMakers(@RequestParam(value="id", required=true) int makersId) {
+	@RequestMapping(value="/detail/{id}", method=RequestMethod.POST)
+	public MakersVO getMakers(@PathVariable(value="id", required=true) int makersId) {
 		// 파라미터 String 아니고 int값으로 받을 수 있다.
 		return makersService.getMakers(makersId);
 	}

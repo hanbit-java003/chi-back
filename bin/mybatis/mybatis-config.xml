@@ -14,6 +14,9 @@
 		<typeAlias alias="scheduleVO" type="com.chi.makers.api.vo.ScheduleVO"/>
 		<typeAlias alias="infoVO" type="com.chi.makers.api.vo.InfoVO"/>
 		<typeAlias alias="makersBestVO" type="com.chi.makers.api.vo.MakersBestVO"/>
+		<typeAlias alias="fileVO" type="com.chi.makers.api.vo.FileVO"/>
+		
+		<typeAlias alias="adminMkVO" type="com.chi.makers.api.admin.vo.AdminMkVO"/>
 	</typeAliases>
 	
 	<!-- <environments> application.properties에 이미 입력해서 필요없음 삭제 -->
