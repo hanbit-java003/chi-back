@@ -76,4 +76,8 @@ public class AdminMkDAO {
 		return sqlSession.selectOne("admin.generateId");
 	}
 
+	public int deleteMakers(int id) {
+		return sqlSession.delete("admin.deleteMakers", id);
+	}
+
 }

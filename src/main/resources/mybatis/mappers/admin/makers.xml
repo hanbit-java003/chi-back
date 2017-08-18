@@ -107,4 +107,10 @@
 		  FROM tbl_items
 	</select>
 	
+	<delete id="deleteMakers" parameterType="int">
+		DELETE
+		  FROM tbl_items
+		 WHERE id = #{id}
+	</delete>
+	
 </mapper>

@@ -66,4 +66,10 @@ public class AdminMkController {
 		return result;
 	}
 	
+	@RequestMapping("/delete/{id}")
+	public String deleteMakers(@PathVariable("id") int id) {
+		adminMkService.deleteMakers(id);
+		return "OK";
+	}
+	
 }
