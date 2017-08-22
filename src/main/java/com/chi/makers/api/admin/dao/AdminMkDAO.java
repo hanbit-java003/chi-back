@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.chi.makers.api.admin.vo.AdminMkVO;
-import com.chi.makers.api.vo.ImgVO;
-import com.chi.makers.api.vo.InfoVO;
 import com.chi.makers.api.vo.MakersVO;
-import com.chi.makers.api.vo.ScheduleVO;
+import com.chi.makers.api.vo.OptionVO;
 
 @Repository
 public class AdminMkDAO {
@@ -20,22 +18,6 @@ public class AdminMkDAO {
 	
 	public List<AdminMkVO> selectListMakers() {
 		return sqlSession.selectList("admin.selectListMakers");
-	}
-
-	public MakersVO selectMakers(int id) {
-		return sqlSession.selectOne("admin.selectMakers", id);
-	}
-
-	public List<ImgVO> selectListImgs(int id) {
-		return sqlSession.selectList("admin.selectImgs", id);
-	}
-
-	public List<InfoVO> selectListInfos(int id) {
-		return sqlSession.selectList("admin.selectInfos", id);
-	}
-
-	public List<ScheduleVO> selectListSchedules(int id) {
-		return sqlSession.selectList("admin.selectSchedules", id);
 	}
 
 	public int updateMakers(MakersVO makers) {
@@ -78,6 +60,18 @@ public class AdminMkDAO {
 
 	public int deleteMakers(int id) {
 		return sqlSession.delete("admin.deleteMakers", id);
+	}
+
+	public List<OptionVO> selectListOptions(int id) {
+		return sqlSession.selectList("admin.selectOptions", id);
+	}
+
+	public int deleteOptions(int id) {
+		return sqlSession.delete("admin.deleteOptions", id);
+	}
+
+	public int insertOptions(MakersVO makers) {
+		return sqlSession.insert("admin.insertOptions", makers);
 	}
 
 }

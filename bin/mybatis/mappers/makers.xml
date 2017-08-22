@@ -54,4 +54,11 @@
  		 ORDER BY orders DESC;
 	</select>
 	
+	<select id="selectOptions" parameterType="int" resultType="optionVO">
+		SELECT *
+		  FROM tbl_options
+		 WHERE id=#{id}
+	  ORDER BY option_id
+	</select>
+	
 </mapper>

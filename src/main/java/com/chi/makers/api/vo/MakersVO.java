@@ -15,6 +15,7 @@ public class MakersVO {
 	private List<ImgVO> imgs;
 	private List<InfoVO> infos;
 	private List<ScheduleVO> schedules;
+	private List<OptionVO> options;
 	
 	public int getId() {
 		return id;
@@ -81,6 +82,12 @@ public class MakersVO {
 	}
 	public void setSchedules(List<ScheduleVO> schedules) {
 		this.schedules = schedules;
+	}
+	public List<OptionVO> getOptions() {
+		return options;
+	}
+	public void setOptions(List<OptionVO> options) {
+		this.options = options;
 	}
 	
 }

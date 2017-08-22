@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +35,8 @@ public class AdminMkService {
 		return adminMkDAO.selectListMakers();
 	}
 
-	@Transactional
 	public MakersVO getMakers(int id) {
-		MakersVO makersVO = adminMkDAO.selectMakers(id);
-		makersVO.setImgs(adminMkDAO.selectListImgs(id));
-		makersVO.setInfos(adminMkDAO.selectListInfos(id));
-		makersVO.setSchedules(adminMkDAO.selectListSchedules(id));
-		return makersVO;
+		return makersService.getMakers(id);
 	}
 	
 	@Transactional
@@ -83,6 +77,11 @@ public class AdminMkService {
 		adminMkDAO.deleteSchedules(makers.getId());
 		if (makers.getSchedules().size() > 0) {
 			adminMkDAO.insertSchedules(makers);
+		}
+		
+		adminMkDAO.deleteOptions(makers.getId());
+		if (makers.getOptions().size() > 0) {
+			adminMkDAO.insertOptions(makers);
 		}
 		
 		if (imgs != null) {
@@ -159,6 +158,10 @@ public class AdminMkService {
 			adminMkDAO.insertSchedules(makers);
 		}
 		
+		if (makers.getOptions().size() > 0) {
+			adminMkDAO.insertOptions(makers);
+		}
+		
 		if (imgs != null) {
 			String folderPath = "/hanbit2/webpack/chi-front/src/img/" + makers.getId() + "/"; // 다른 PC에서 사용시 반드시 수정
 			
@@ -205,7 +208,8 @@ public class AdminMkService {
 		adminMkDAO.deleteInfos(id);
 		int removeFiles = adminMkDAO.deleteImgs(id);
 		adminMkDAO.deleteSchedules(id);
-		adminMkDAO.deleteMakers(id);
+		adminMkDAO.deleteOptions(id);
+		adminMkDAO.deleteMakers(id); // 순서중요 - tbl_item이 id를 외래키로 사용하니까
 		
 		for (int i=0; i<removeFiles; i++) {
 			fileService.removeFile(backgroundFileId + "-" + i);

@@ -10,6 +10,7 @@ import com.chi.makers.api.vo.ImgVO;
 import com.chi.makers.api.vo.InfoVO;
 import com.chi.makers.api.vo.MakersBestVO;
 import com.chi.makers.api.vo.MakersVO;
+import com.chi.makers.api.vo.OptionVO;
 import com.chi.makers.api.vo.ScheduleVO;
 
 @Repository //Data Access Object - DB 접속하는 저장소이니까
@@ -45,6 +46,10 @@ public class MakersDAO {
 
 	public List<MakersBestVO> selectBestMakers() {
 		return sqlSession.selectList("makers.selectBestOrders");
+	}
+
+	public List<OptionVO> getOptions(int id) {
+		return sqlSession.selectList("makers.selectOptions", id);
 	}
 
 }

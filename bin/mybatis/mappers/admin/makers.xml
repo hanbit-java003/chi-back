@@ -11,33 +11,6 @@
 	  ORDER BY i.id DESC;
 	</select>
 	
-	<select id="selectMakers" parameterType="int" resultType="makersVO">
-		SELECT *
-		  FROM tbl_items
-		 WHERE id=#{id}
-	</select>
-	
-	<select id="selectImgs" parameterType="int" resultType="imgVO">
-		SELECT *
-		  FROM tbl_imgs
-		 WHERE id=#{id}
- 		 ORDER BY item_id
-	</select>
-	
-	<select id="selectInfos" parameterType="int" resultType="infoVO">
-		SELECT *
-		  FROM tbl_product_info
-		 WHERE id=#{id}
-		 ORDER BY item_id
-	</select>
-	
-	<select id="selectSchedules" parameterType="int" resultType="scheduleVO">
-		SELECT *
-		  FROM tbl_schedule
-		 WHERE id=#{id}
-		 ORDER BY item_id
-	</select>
-	
 	<update id="updateMakers" parameterType="makersVO">
 		UPDATE tbl_items
 		   SET name = #{name},
@@ -112,5 +85,20 @@
 		  FROM tbl_items
 		 WHERE id = #{id}
 	</delete>
+	
+	<delete id="deleteOptions" parameterType="int">
+		DELETE
+		  FROM tbl_options
+		 WHERE id = #{id}
+	</delete>
+	
+	<insert id="insertOptions" parameterType="makersVO">
+		INSERT INTO tbl_options
+			(id, option_id, name, price)
+		VALUES
+		<foreach collection="options" item="option" index="index" separator=",">
+			(#{id}, #{index}, #{option.name}, #{option.price})
+		</foreach>
+	</insert>
 	
 </mapper>

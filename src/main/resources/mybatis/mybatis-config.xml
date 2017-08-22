@@ -13,6 +13,7 @@
 		<typeAlias alias="imgVO" type="com.chi.makers.api.vo.ImgVO"/>
 		<typeAlias alias="scheduleVO" type="com.chi.makers.api.vo.ScheduleVO"/>
 		<typeAlias alias="infoVO" type="com.chi.makers.api.vo.InfoVO"/>
+		<typeAlias alias="optionVO" type="com.chi.makers.api.vo.OptionVO"/>
 		<typeAlias alias="makersBestVO" type="com.chi.makers.api.vo.MakersBestVO"/>
 		<typeAlias alias="fileVO" type="com.chi.makers.api.vo.FileVO"/>
 		
