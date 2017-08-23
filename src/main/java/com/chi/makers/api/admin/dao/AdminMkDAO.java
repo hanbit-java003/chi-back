@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.chi.makers.api.admin.vo.AdminMkVO;
+import com.chi.makers.api.vo.ImgVO;
 import com.chi.makers.api.vo.MakersVO;
 import com.chi.makers.api.vo.OptionVO;
 
@@ -72,6 +73,10 @@ public class AdminMkDAO {
 
 	public int insertOptions(MakersVO makers) {
 		return sqlSession.insert("admin.insertOptions", makers);
+	}
+
+	public ImgVO getMainImg(int id) {
+		return sqlSession.selectOne("admin.selectMainImg", id);
 	}
 
 }

@@ -36,38 +36,31 @@ public class AdminMkService {
 	}
 
 	public MakersVO getMakers(int id) {
-		return makersService.getMakers(id);
+		MakersVO makersVO = makersService.getMakers(id);
+		makersVO.getImgs().add(0, adminMkDAO.getMainImg(id));
+		return makersVO;
 	}
 	
 	@Transactional
 	public void modifyMakers(MakersVO makers, List<MultipartFile> imgs) {
-		List<String> imgsID = new ArrayList<>();
-		
-		makers.getImgs().clear();
-		if (imgs != null) {
+		if (!imgs.isEmpty()) {
+			makers.getImgs().clear();
+			
 			for (int i=0; i < imgs.size(); i++) {
 				ImgVO img = new ImgVO();
 				img.setId(makers.getId());
 				img.setItemId(i);
 				String name = "makers-" + makers.getId() + "-" + img.getItemId();
-				imgsID.add(name);
 				img.setImg("/chi_makers/api/makers/file/" + name); // 다른 PC에서 사용시 반드시 수정 필요할지도
 				makers.getImgs().add(img);
 				System.out.println("imgs modify :" + name);
 			}
+			
+			adminMkDAO.deleteImgs(makers.getId());
+			adminMkDAO.insertImgs(makers);
 		}
 		
 		adminMkDAO.updateMakers(makers);
-		
-		
-		String backgroundFileId = "makers-" + makers.getId();
-		int removeFiles = adminMkDAO.deleteImgs(makers.getId());
-		for (int i=0; i<removeFiles; i++) {
-			fileService.removeFile(backgroundFileId + "-" + i);
-		}
-		if (makers.getImgs().size() > 0) {
-			adminMkDAO.insertImgs(makers);
-		}
 		
 		adminMkDAO.deleteInfos(makers.getId());
 		if (makers.getInfos().size() > 0) {
@@ -84,7 +77,7 @@ public class AdminMkService {
 			adminMkDAO.insertOptions(makers);
 		}
 		
-		if (imgs != null) {
+		if (!imgs.isEmpty()) {
 			String folderPath = "/hanbit2/webpack/chi-front/src/img/" + makers.getId() + "/"; // 다른 PC에서 사용시 반드시 수정
 			
 			File dest = new File(folderPath);
@@ -103,17 +96,18 @@ public class AdminMkService {
 				FileVO fileVO = new FileVO();
 				ImgVO imgVO = makers.getImgs().get(i);
 				
-				fileVO.setFileId(imgsID.get(i));
+				String fileName = makers.getId() + "-" + imgVO.getItemId();
 				String fileExt = FilenameUtils.getExtension(mf.getOriginalFilename());
-				String fileName = imgVO.getId() + "-" + imgVO.getItemId() + "." + fileExt;
+				String fileNameExt = fileName + "." + fileExt;
 				
-				fileVO.setFilePath(folderPath + fileName);
-				fileVO.setFileName(fileName);
+				fileVO.setFileId("makers-" + fileName);
+				fileVO.setFilePath(folderPath + fileNameExt);
 				fileVO.setContentType(mf.getContentType());
 				fileVO.setContentLength(mf.getSize());
+				fileVO.setFileName(fileNameExt);
 				
 				try {
-					fileService.addFile(fileVO, mf.getInputStream()); // file을 전부 삭제하고 다시 넣는 것이니 modifyFile이 아니고 addFile
+					fileService.modifyFile(fileVO, mf.getInputStream());
 				} catch (IOException e) {
 					throw new RuntimeException();
 				}
@@ -128,7 +122,7 @@ public class AdminMkService {
 		List<String> imgsID = new ArrayList<>();
 		makers.setId(adminMkDAO.generateId());
 		
-		if (imgs != null) {
+		if (!imgs.isEmpty()) {
 			for (int i=0; i<imgs.size(); i++) {
 				ImgVO img = new ImgVO();
 				img.setId(makers.getId());
@@ -162,7 +156,7 @@ public class AdminMkService {
 			adminMkDAO.insertOptions(makers);
 		}
 		
-		if (imgs != null) {
+		if (!imgs.isEmpty()) {
 			String folderPath = "/hanbit2/webpack/chi-front/src/img/" + makers.getId() + "/"; // 다른 PC에서 사용시 반드시 수정
 			
 			File dest = new File(folderPath);

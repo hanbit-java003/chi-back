@@ -101,4 +101,10 @@
 		</foreach>
 	</insert>
 	
+	<select id="selectMainImg"  parameterType="int" resultType="imgVO">
+		SELECT *
+		  FROM tbl_imgs
+		 WHERE id = #{id} AND item_id = 0
+	</select>
+	
 </mapper>
