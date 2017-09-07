@@ -5,6 +5,7 @@ public class AdminMkDetailVO {
 	private int id;
 	private String title;
 	private String content;
+	private String mainImg;
 	private int orders;
 	private int likes;
 	private int price;
@@ -72,5 +73,11 @@ public class AdminMkDetailVO {
 	}
 	public void setScheduleCount(int scheduleCount) {
 		this.scheduleCount = scheduleCount;
+	}
+	public String getMainImg() {
+		return mainImg;
+	}
+	public void setMainImg(String mainImg) {
+		this.mainImg = mainImg;
 	}
 }

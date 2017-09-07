@@ -75,8 +75,4 @@ public class AdminMkDAO {
 		return sqlSession.insert("admin.insertOptions", makers);
 	}
 
-	public ImgVO getMainImg(int id) {
-		return sqlSession.selectOne("admin.selectMainImg", id);
-	}
-
 }

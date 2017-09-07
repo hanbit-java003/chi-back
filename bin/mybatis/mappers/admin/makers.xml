@@ -5,16 +5,16 @@
 <mapper namespace="admin">
 	
 	<select id="selectListMakers" resultType="adminMkVO">
-		SELECT i.id, i.title, m.img, i.name, i.likes, i.orders
-		  FROM tbl_items i, tbl_imgs m
-		 WHERE i.id = m.id AND m.item_id = 0
-	  ORDER BY i.id DESC;
+		SELECT id, title, main_img, name, likes, orders
+		  FROM tbl_items
+	  ORDER BY id DESC;
 	</select>
 	
 	<update id="updateMakers" parameterType="makersVO">
 		UPDATE tbl_items
 		   SET name = #{name},
 		       title = #{title},
+		       main_img = #{mainImg},
 		       price = #{price},
 		       content = #{content},
 		       orders = #{orders},
@@ -33,8 +33,8 @@
 		INSERT INTO tbl_imgs
 			(id, item_id, img)
 		VALUES
-		<foreach collection="imgs" item="img" index="index" separator=",">
-			(#{id}, #{index}, #{img.img})
+		<foreach collection="imgs" item="img" separator=",">
+			(#{id}, #{img.itemId}, #{img.img})
 		</foreach>
 	</insert>
 	
@@ -70,9 +70,9 @@
 	
 	<insert id="insertMakers" parameterType="makersVO">
 		INSERT INTO tbl_items
-		    (id, name, title, price, content, orders, orderDays, likes)
+		    (id, name, title, main_img, price, content, orders, orderDays, likes)
 		VALUES
-			(#{id}, #{name}, #{title}, #{price}, #{content}, #{orders}, #{orderDays}, #{likes})
+			(#{id}, #{name}, #{title}, #{mainImg}, #{price}, #{content}, #{orders}, #{orderDays}, #{likes})
 	</insert>
 	
 	<select id="generateId" resultType="int">
@@ -100,11 +100,5 @@
 			(#{id}, #{index}, #{option.name}, #{option.price})
 		</foreach>
 	</insert>
-	
-	<select id="selectMainImg"  parameterType="int" resultType="imgVO">
-		SELECT *
-		  FROM tbl_imgs
-		 WHERE id = #{id} AND item_id = 0
-	</select>
 	
 </mapper>

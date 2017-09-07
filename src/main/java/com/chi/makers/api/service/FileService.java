@@ -45,11 +45,14 @@ public class FileService {
 	
 	public void removeFile(String fileId) {
 		FileVO fileVO = fileDAO.selectFile(fileId);
+		if (fileVO == null) {
+			System.out.println("removeFile : null");
+			return;
+		}
 		String filePath = fileVO.getFilePath();
 
 		fileDAO.deleteFile(fileId);
 
 		FileUtils.deleteQuietly(new File(filePath)); // common.io - 파일을 조용히 지워준다.
 	}
-
 }

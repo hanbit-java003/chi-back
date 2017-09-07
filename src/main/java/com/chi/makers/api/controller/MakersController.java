@@ -3,6 +3,7 @@ package com.chi.makers.api.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,11 +20,11 @@ public class MakersController {
 	@Autowired
 	private MakersService makersService;
 	
-	@RequestMapping("/")
-	public List<MakersVO> getMakers() {
-		List<MakersVO> makers = makersService.getMakers(); 
+	@RequestMapping(value="/", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public String getMakers() { // 스트링으로 보낼때 이 데이터는 JSON이라고 명시해야됨 - 안그러면 html로 받아서 해석을 못함(ex: length를 string만큼 찍힘)
+		String makers = makersService.getMakers(); 
 		
-		return makers; // spring이 json 만들어 보내준다. java에서는 java만
+		return makers; // content-type - application/json; charset=UTF-8 이어야한다.
 	}
 	
 	@RequestMapping(value="/detail/{id}", method=RequestMethod.POST)

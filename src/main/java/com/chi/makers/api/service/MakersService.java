@@ -1,6 +1,5 @@
 package com.chi.makers.api.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.chi.makers.api.dao.MakersDAO;
 import com.chi.makers.api.vo.MakersBestVO;
 import com.chi.makers.api.vo.MakersVO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class MakersService {
@@ -16,10 +17,10 @@ public class MakersService {
 	@Autowired
 	private MakersDAO makersDAO;
 	
-	private List<MakersVO> casheMakersVO = new ArrayList<>();
+	private String casheMakersVO;
 	
-	public List<MakersVO> getMakers() {
-		if (!casheMakersVO.isEmpty()) {
+	public String getMakers() {
+		if (casheMakersVO != null) {
 			return casheMakersVO;
 		}
 		
@@ -27,13 +28,10 @@ public class MakersService {
 		if (makers == null) {
 			return null;
 		}
-		for (MakersVO makersVO : makers) { // 그림 1개만 필요
-			makersVO.setImgs(makersDAO.getImg(makersVO.getId()));
-		}
 		
-		casheMakersVO = makers;
+		saveCache(makers);
 		
-		return makers;
+		return loadCache();
 	}
 
 	public MakersVO getMakers(int makersId) {
@@ -48,11 +46,22 @@ public class MakersService {
 	public List<MakersBestVO> getBestMakers() {
 		return makersDAO.selectBestMakers();
 	}
+	
+	public void saveCache(List<MakersVO> makers) {
+		ObjectMapper mapper = new ObjectMapper(); // java 타입을 JSON 타입으로 만든다.
+		try {
+			casheMakersVO = mapper.writeValueAsString(makers);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e); // 받는 쪽에서 try catch 안해도 됨 - 어짜피 에러는 나있는 상태
+		}
+	}
+	
+	public String loadCache() {
+		return casheMakersVO;
+	}
 
 	public void invalidateCache() {
-		if (!casheMakersVO.isEmpty()) {
-			casheMakersVO.clear();
-		}
+		casheMakersVO = null;
 	}
 
 }

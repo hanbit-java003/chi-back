@@ -12,6 +12,7 @@ public class MakersVO {
 	private int orders;
 	private String orderDays;
 	private int likes;
+	private String mainImg;
 	private List<ImgVO> imgs;
 	private List<InfoVO> infos;
 	private List<ScheduleVO> schedules;
@@ -88,6 +89,12 @@ public class MakersVO {
 	}
 	public void setOptions(List<OptionVO> options) {
 		this.options = options;
+	}
+	public String getMainImg() {
+		return mainImg;
+	}
+	public void setMainImg(String mainImg) {
+		this.mainImg = mainImg;
 	}
 	
 }

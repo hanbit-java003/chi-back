@@ -5,15 +5,9 @@
 <mapper namespace="makers">
 	
 	<select id="selectMakers" resultType="makersVO">
-		SELECT id, orders, title, content, likes
+		SELECT id, orders, title, content, likes, main_img
 		  FROM tbl_items
 		 ORDER BY id DESC
-	</select>
-	
-	<select id="selectImg" parameterType="int" resultType="imgVO">
-		SELECT *
-		  FROM tbl_imgs
-		 WHERE id=#{id} AND item_id=0
 	</select>
 	
 	<select id="selectSubItem" parameterType="int" resultType="makersVO">
@@ -27,7 +21,6 @@
 		  FROM tbl_imgs
 		 WHERE id=#{id}
 	  ORDER BY item_id
-	     LIMIT 1, 3
 	</select>
 	
 	<select id="selectInfos" parameterType="int" resultType="infoVO">
@@ -47,10 +40,9 @@
 	<select id="selectBestOrders" resultType="makersBestVO">
 		SELECT t.*, @rownum := @rownum + 1 as rank
   		  FROM (
-				SELECT i.id, i.title, g.img, MAX(i.orders) orders
-	  			  FROM tbl_items i, tbl_imgs g
-	 			 WHERE i.id = g.id AND g.item_id = 0
-	 			 GROUP BY i.orders) t, (SELECT @rownum := 0) r
+				SELECT id, title, main_img, MAX(orders) orders
+	  			  FROM tbl_items
+	 			 GROUP BY orders) t, (SELECT @rownum := 0) r
  		 ORDER BY orders DESC;
 	</select>
 	

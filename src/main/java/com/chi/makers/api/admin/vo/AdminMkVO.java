@@ -4,7 +4,8 @@ public class AdminMkVO {
 	private int id;
 	private String title;
 	private String img;
-	private String name; 
+	private String name;
+	private String mainImg;
 	private int likes;
 	private int orders;
 	
@@ -43,6 +44,12 @@ public class AdminMkVO {
 	}
 	public void setOrders(int orders) {
 		this.orders = orders;
+	}
+	public String getMainImg() {
+		return mainImg;
+	}
+	public void setMainImg(String mainImg) {
+		this.mainImg = mainImg;
 	}
 	
 }

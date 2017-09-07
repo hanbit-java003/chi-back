@@ -41,9 +41,10 @@ public class AdminMkController {
 		String json = request.getParameter("json");
 		MakersVO makers = mapper.readValue(json, MakersVO.class);
 		
+		MultipartFile mainImg = request.getFile("mainImg");
 		List<MultipartFile> imgs = request.getFiles("imgs"); // request에 같은 이름(imgs)로 보내서 리스트로 받는다.
 		
-		adminMkService.modifyMakers(makers, imgs);
+		adminMkService.modifyMakers(makers, mainImg, imgs);
 		
 		Map result = new HashMap();
 		result.put("ok", true);
@@ -56,20 +57,26 @@ public class AdminMkController {
 		String json = request.getParameter("json");
 		MakersVO makers = mapper.readValue(json, MakersVO.class);
 		
+		MultipartFile mainImg = request.getFile("mainImg");
 		List<MultipartFile> imgs = request.getFiles("imgs");
 		
-		adminMkService.addMakers(makers, imgs);
+		adminMkService.addMakers(makers, mainImg, imgs);
 		
 		Map result = new HashMap();
 		result.put("id", makers.getId());
+		result.put("status", "ok");
 		
 		return result;
 	}
 	
 	@RequestMapping("/delete/{id}")
-	public String deleteMakers(@PathVariable("id") int id) {
+	public Map deleteMakers(@PathVariable("id") int id) {
 		adminMkService.deleteMakers(id);
-		return "OK";
+		
+		Map result = new HashMap();
+		result.put("status", "ok");
+		
+		return result;
 	}
 	
 }

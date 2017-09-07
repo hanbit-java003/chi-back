@@ -23,11 +23,6 @@ public class MakersDAO {
 		return sqlSession.selectList("makers.selectMakers");
 	}
 
-	public List<ImgVO> getImg(int id) {
-		//mybatis는 item_id(mysql) -> itemID(java)로 자동으로 mapping 함 - mybatis-config.xml에 설정할 수 있음
-		return sqlSession.selectList("makers.selectImg", id);
-	}
-
 	public MakersVO getMakers(int id) {
 		return sqlSession.selectOne("makers.selectSubItem", id);
 	}
