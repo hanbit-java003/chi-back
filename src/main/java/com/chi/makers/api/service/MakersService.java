@@ -39,7 +39,7 @@ public class MakersService {
 		makersVO.setImgs(makersDAO.getImgs(makersId));
 		makersVO.setInfos(makersDAO.getInfos(makersId));
 		makersVO.setSchedules(makersDAO.getSchedules(makersId));
-		makersVO.setOptions(makersDAO.getOptions(makersId));
+		//makersVO.setOptions(makersDAO.getOptions(makersId));
 		return makersVO;
 	}
 
@@ -47,7 +47,7 @@ public class MakersService {
 		return makersDAO.selectBestMakers();
 	}
 	
-	public void saveCache(List<MakersVO> makers) {
+	private void saveCache(List<MakersVO> makers) {
 		ObjectMapper mapper = new ObjectMapper(); // java 타입을 JSON 타입으로 만든다.
 		try {
 			casheMakersVO = mapper.writeValueAsString(makers);
@@ -56,7 +56,7 @@ public class MakersService {
 		}
 	}
 	
-	public String loadCache() {
+	private String loadCache() {
 		return casheMakersVO;
 	}
 

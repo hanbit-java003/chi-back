@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chi.makers.api.domain.Option;
 import com.chi.makers.api.service.MakersService;
+import com.chi.makers.api.service.OptionService;
 import com.chi.makers.api.vo.MakersBestVO;
 import com.chi.makers.api.vo.MakersVO;
 
@@ -19,6 +21,9 @@ public class MakersController {
 	
 	@Autowired
 	private MakersService makersService;
+	
+	@Autowired
+	private OptionService optionService;
 	
 	@RequestMapping(value="/", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public String getMakers() { // 스트링으로 보낼때 이 데이터는 JSON이라고 명시해야됨 - 안그러면 html로 받아서 해석을 못함(ex: length를 string만큼 찍힘)
@@ -38,4 +43,8 @@ public class MakersController {
 		return makersService.getBestMakers();
 	}
 
+	@RequestMapping("/option/{id}")
+	public Option getOption(@PathVariable("id") String id) {
+		return optionService.getOption(id);
+	}
 }

@@ -38,6 +38,7 @@ dependencies {
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 	// https://mvnrepository.com/artifact/commons-io/commons-io
 	compile group: 'commons-io', name: 'commons-io', version: '2.5'
+	compile group: 'org.springframework.data', name: 'spring-data-couchbase', version: '2.2.6.RELEASE'
 	
 	compile('org.springframework.boot:spring-boot-starter-jdbc') // jdbc 추가
 	compile('org.springframework.boot:spring-boot-starter-web')

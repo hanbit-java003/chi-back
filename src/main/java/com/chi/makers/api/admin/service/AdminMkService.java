@@ -12,8 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.chi.makers.api.admin.dao.AdminMkDAO;
+import com.chi.makers.api.admin.repo.AdminMkOptionRepository;
 import com.chi.makers.api.admin.vo.AdminMkVO;
 import com.chi.makers.api.dao.MakersDAO;
+import com.chi.makers.api.domain.Option;
 import com.chi.makers.api.service.FileService;
 import com.chi.makers.api.service.MakersService;
 import com.chi.makers.api.vo.FileVO;
@@ -35,6 +37,9 @@ public class AdminMkService {
 	@Autowired
 	private FileService fileService;
 	
+	@Autowired
+	private AdminMkOptionRepository adminMkOptionRepository;
+	
 	public List<AdminMkVO> listMakers() {
 		return adminMkDAO.selectListMakers();
 	}
@@ -45,7 +50,7 @@ public class AdminMkService {
 	}
 	
 	@Transactional
-	public void modifyMakers(MakersVO makers, MultipartFile mainImg, List<MultipartFile> imgs) throws Exception{
+	public void modifyMakers(MakersVO makers, Option option, MultipartFile mainImg, List<MultipartFile> imgs) throws Exception{
 		if (mainImg != null) {
 			String name = "makers-" + makers.getId();
 			makers.setMainImg("/chi_makers/api/makers/file/" + name); // 다른 PC에서 사용시 반드시 수정 필요할지도
@@ -62,11 +67,6 @@ public class AdminMkService {
 		adminMkDAO.deleteSchedules(makers.getId());
 		if (makers.getSchedules().size() > 0) {
 			adminMkDAO.insertSchedules(makers);
-		}
-		
-		adminMkDAO.deleteOptions(makers.getId());
-		if (makers.getOptions().size() > 0) {
-			adminMkDAO.insertOptions(makers);
 		}
 		
 		int lastIndex = makers.getImgs().get(makers.getImgs().size()-1).getItemId() + 1;
@@ -130,13 +130,18 @@ public class AdminMkService {
 				fileService.modifyFile(fileVO, mf.getInputStream());
 			}
 		}
-
+		
+		//option - CouchBase는 @Transactional을 먹지 않으니 가능한 뒤로
+		adminMkOptionRepository.save(option);
+		
 		makersService.invalidateCache();
 	}
 
 	@Transactional
-	public void addMakers(MakersVO makers, MultipartFile mainImg, List<MultipartFile> imgs) {
+	public void addMakers(MakersVO makers, Option option, MultipartFile mainImg, List<MultipartFile> imgs) {
 		makers.setId(adminMkDAO.generateId());
+		option.setKey(String.valueOf(makers.getId()));
+		option.setId(makers.getId());
 		
 		if (mainImg != null) {
 			String name = "makers-" + makers.getId();
@@ -173,10 +178,6 @@ public class AdminMkService {
 
 		if (makers.getSchedules().size() > 0) {
 			adminMkDAO.insertSchedules(makers);
-		}
-		
-		if (makers.getOptions().size() > 0) {
-			adminMkDAO.insertOptions(makers);
 		}
 		
 		if (mainImg != null) {
@@ -238,6 +239,9 @@ public class AdminMkService {
 			}
 		}
 		
+		//option
+		adminMkOptionRepository.save(option);
+		
 		makersService.invalidateCache();
 	}
 	
@@ -245,7 +249,6 @@ public class AdminMkService {
 	public String deleteMakers(int id) {
 		adminMkDAO.deleteInfos(id);
 		adminMkDAO.deleteSchedules(id);
-		adminMkDAO.deleteOptions(id);
 		List<ImgVO> imgs = makersDAO.getImgs(id);
 		adminMkDAO.deleteImgs(id);
 		adminMkDAO.deleteMakers(id); // 순서중요 - tbl_item이 id를 외래키로 사용하니까
@@ -264,6 +267,8 @@ public class AdminMkService {
 		if (dest.exists()){
 			dest.delete();
 		}
+		
+		adminMkOptionRepository.delete(String.valueOf(id)); // delete은 int 안됨
 		
 		makersService.invalidateCache();
 		

@@ -3,7 +3,7 @@ package com.chi.makers.api.vo;
 public class MakersBestVO {
 	private int id;
 	private String title;
-	private String img;
+	private String mainImg;
 	private int orders;
 	private int rank;
 	
@@ -19,12 +19,6 @@ public class MakersBestVO {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getImg() {
-		return img;
-	}
-	public void setImg(String img) {
-		this.img = img;
-	}
 	public int getOrders() {
 		return orders;
 	}
@@ -36,6 +30,12 @@ public class MakersBestVO {
 	}
 	public void setRank(int rank) {
 		this.rank = rank;
+	}
+	public String getMainImg() {
+		return mainImg;
+	}
+	public void setMainImg(String mainImg) {
+		this.mainImg = mainImg;
 	}
 	
 }

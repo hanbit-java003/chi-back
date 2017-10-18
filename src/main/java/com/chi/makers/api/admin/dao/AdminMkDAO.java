@@ -66,13 +66,5 @@ public class AdminMkDAO {
 	public List<OptionVO> selectListOptions(int id) {
 		return sqlSession.selectList("admin.selectOptions", id);
 	}
-
-	public int deleteOptions(int id) {
-		return sqlSession.delete("admin.deleteOptions", id);
-	}
-
-	public int insertOptions(MakersVO makers) {
-		return sqlSession.insert("admin.insertOptions", makers);
-	}
-
+	
 }

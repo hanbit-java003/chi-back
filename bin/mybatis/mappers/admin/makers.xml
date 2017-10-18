@@ -86,19 +86,4 @@
 		 WHERE id = #{id}
 	</delete>
 	
-	<delete id="deleteOptions" parameterType="int">
-		DELETE
-		  FROM tbl_options
-		 WHERE id = #{id}
-	</delete>
-	
-	<insert id="insertOptions" parameterType="makersVO">
-		INSERT INTO tbl_options
-			(id, option_id, name, price)
-		VALUES
-		<foreach collection="options" item="option" index="index" separator=",">
-			(#{id}, #{index}, #{option.name}, #{option.price})
-		</foreach>
-	</insert>
-	
 </mapper>
